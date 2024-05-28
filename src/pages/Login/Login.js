@@ -4,10 +4,12 @@ import styles from '../Login/style';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Componentes/Firebase/Firebase';
 import { Button } from "react-native-elements";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
   async function login() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -15,7 +17,8 @@ export function Login({ navigation }) {
       console.log('Logado com sucesso! \n' + userCredential.user.email);
       Alert.alert('Sucesso', 'Logado com sucesso, bem-vindo!');
     } catch (error) {
-      Alert.alert("Erro ao realizar o login")
+      console.log(error);
+        Alert.alert('Tente novamente!', 'Email ou senha incorretos!');
     }
   }
 
@@ -40,11 +43,12 @@ export function Login({ navigation }) {
         maxLength={12}
         secureTextEntry={true}
       />
+      
 
       <Button 
         buttonStyle={styles.button}
         title="Entrar"
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => login('')}
       />
 
       <Text
@@ -53,6 +57,8 @@ export function Login({ navigation }) {
         Não possui conta?
         <Text style={styles.cadastro}> Cadastre-se</Text>
       </Text>
+
+      
     </View>
   )
 }
