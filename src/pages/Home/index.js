@@ -1,13 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import style from "./style"
-import { View , Text, StyleSheet, PermissionsAndroid, TextInput, 
-  TouchableOpacity, Modal, Button, TouchableWithoutFeedback, Image, Callout} from 'react-native';
-import MapView, { Marker, Polyline, Geojson, PROVIDER_GOOGLE } from 'react-native-maps';
+import { View , Text, 
+  TouchableOpacity, Modal,TouchableWithoutFeedback, Image} from 'react-native';
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import iconeAlerta from "./../../img/iconeAlerta.png";
 import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation , useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import Eletrica from "./../../img/energia.png"
 import Acidente from "./../../img/trem.png"

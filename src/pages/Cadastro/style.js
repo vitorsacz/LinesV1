@@ -1,94 +1,52 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20
+  },
 
-    container:{
-        alignItems:"center"
-    },
+  inputContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  input: {
+    backgroundColor: '#e6e6e6',
+    width: '80%',
+    textAlign: 'center',
+    margin: 10,
+    padding: 15,
+    borderRadius: 10,
+    shadowRadius: 4,
+  },
+  button: {
+    backgroundColor: '#013eb0',
+    width: '45%',
+    padding: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 30,
+    marginBottom:40
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  cadastroTexto: {
+    fontSize: 40,
+    color: '#013eb0',
+    fontWeight: "bold",
+    marginBottom:20
+  },
+  loginTexto: {
+    color: '#013eb0',
+    fontSize: 16,
+    marginBottom:90
+  },
+});
 
-    tituCadastro:{
-        fontSize:50,
-        color: '#013eb0',
-        fontWeight:"bold",
-        marginTop:200,
-        marginBottom:50,
-    },
-
-    cadastroTexto:{
-        fontSize:18,
-        fontWeight:"300",
-        marginTop:25,
-        marginBottom:40
-    },
-    inputNome:{
-        backgroundColor: '#e6e6e6',
-        width: '75%',
-        textAlign: 'center',
-        margin: 10,
-        padding: 12,
-        borderRadius: 10,
-        shadowColor: '#000', 
-        shadowOffset: { height: 0 }, 
-        shadowOpacity: 0.3
-        },
-
-    inputEmail:{
-        backgroundColor: '#e6e6e6',
-        width: '75%',
-        textAlign: 'center',
-        margin: 10,
-        padding: 12,
-        borderRadius: 10,
-        shadowColor: '#000', 
-        shadowOffset: { height: 0 }, 
-        shadowOpacity: 0.3
-        },
-
-    inputSenha:{
-        backgroundColor: '#e6e6e6',
-        width: '75%',
-        textAlign: 'center',
-        margin: 10,
-        padding: 12,
-        borderRadius: 10,
-        shadowColor: '#000', 
-        shadowOffset: { height: 0 }, 
-        shadowOpacity: 0.3
-        },
-
-    inputConfirmar:{
-        backgroundColor: '#e6e6e6',
-        width: '75%',
-        textAlign: 'center',
-        margin: 10,
-        padding: 12,
-        borderRadius: 10,
-        shadowColor: '#000', 
-        shadowOffset: { height: 0 }, 
-        shadowOpacity: 0.3
-        },
-    
-    button:{
-        backgroundColor:'#013eb0',
-        width:115,
-        padding:10,
-        borderRadius:20,
-        marginTop:30,
-        marginBottom:20
-    },
-    loginTexto:{
-        marginTop: 10,
-        color:'#A9A9A9',
-        fontSize: 18,
-    },
-    senhaInfo:{
-        color:'gray'
-    },
-    login:{
-        color:'#000000',
-        fontWeight:"400",
-        textDecorationLine: "underline",
-    }
-    });
-
-export default styles
+export default styles;
