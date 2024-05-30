@@ -1,8 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Cadastro from '../pages/Cadastro/Cadastro';
-import { Login } from "../pages/Login/Login";
-import Home from "./tabRoutes";
+import Login  from "../pages/Login/Login";
 import Inicio from "../pages/inicio";
 import Configuracoes from "../pages/configuracoes";
 import Pagamento from "../pages/pagamento";
@@ -27,6 +26,7 @@ import SOS from '../pages/Alertas/SOS/index'
 import TabRoutes from "./tabRoutes";
 
 const Stack = createNativeStackNavigator();
+
 
 export default function StackRoutes(){
     return(
@@ -53,7 +53,8 @@ export default function StackRoutes(){
                 name="Cadastro"
                 component={Cadastro}
                 options={{
-                    headerShown:false
+                    headerShown:true,
+                    headerBackVisible: false
                 }}
             />
 
@@ -62,17 +63,17 @@ export default function StackRoutes(){
                 component={Login}
                 options={{
                     headerShown:true,
-                    headerBackVisible: false // Isso remove apenas o botão de voltar do cabeçalho
+                    headerBackVisible: false
                     
                 }}
         />
 
         <Stack.Screen 
-                name="Home"
-                component={Home}
+                name="Main"
+                component={TabRoutes}
                 options={{
                     headerShown:true,
-                    headerBackVisible: false // Isso remove apenas o botão de voltar do cabeçalho
+                    headerBackVisible: false 
                 }}
             />
 
@@ -81,7 +82,7 @@ export default function StackRoutes(){
                 component={Configuracoes}
                 options={{
                     headerShown:false,
-                    headerBackVisible: false // Isso remove apenas o botão de voltar do cabeçalho
+                    headerBackVisible: false
                 }}
         />
 
@@ -89,7 +90,7 @@ export default function StackRoutes(){
                 name="Pagamento"
                 component={Pagamento}
                 options={{headerShown:false,
-                    headerBackVisible: false // Isso remove apenas o botão de voltar do cabeçalho
+                    headerBackVisible: false 
                 }}
 
             />

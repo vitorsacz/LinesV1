@@ -1,64 +1,77 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Alert} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
 import styles from '../Login/style';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../Componentes/Firebase/Firebase';
-import { Button } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native';
+import { firebase } from '../../Componentes/Firebase/Firebase';
 
-export function Login({ navigation }) {
+const Login = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  async function login() {
+
+  const loginUser = async (email, password) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate('Home');
-      console.log('Logado com sucesso! \n' + userCredential.user.email);
-      Alert.alert('Sucesso', 'Logado com sucesso, bem-vindo!');
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      navigation.navigate('Main');
     } catch (error) {
-      console.log(error);
-        Alert.alert('Tente novamente!', 'Email ou senha incorretos!');
+      alert("Algo deu errado, tente novamente!");
     }
+  }
+
+  const forgetPassword = () => {
+    firebase.auth().sendPasswordResetEmail(email)
+    .then(() => {
+      alert("O e-mail para alterar senha foi enviado!")
+    }).catch(() => {
+      alert("Algo deu errado, tente novamente!")
+    })
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.loginTexto}>Login</Text>
+      <View style={styles.inputContainer}>
+        <TextInput 
+          style={styles.input}
+          placeholder='Informe seu e-mail'
+          onChangeText={(email) => setEmail(email)}
+          autoCapitalize='none'
+          autoCorrect={false}
+        />
+        <TextInput 
+          style={styles.input}
+          placeholder='Informe sua senha'
+          onChangeText={(password) => setPassword(password)}
+          autoCapitalize='none'
+          autoCorrect={false}
+          secureTextEntry={true}
+        />
+      </View>
+      <TouchableOpacity
+        onPress={() => loginUser(email, password)}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Entrar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Cadastro')}
+        style={styles.cadastroContainer}
+      >
+        <Text style={styles.cadastroTexto}>
+          Não possui uma conta? Cadastre-se aqui.
+        </Text>
+      </TouchableOpacity>
 
-      <TextInput 
-        placeholder="Usuário"
-        placeholderTextColor='#6d6d6d'
-        value={email}
-        onChangeText={value => setEmail(value)}
-        style={styles.input}
-      />
-
-      <TextInput 
-        placeholder="Senha"
-        placeholderTextColor='#6d6d6d'
-        value={password}
-        onChangeText={value => setPassword(value)}
-        style={styles.input2}
-        maxLength={12}
-        secureTextEntry={true}
-      />
-      
-
-      <Button 
-        buttonStyle={styles.button}
-        title="Entrar"
-        onPress={() => login('')}
-      />
-
-      <Text
-        style={styles.cadastroTexto}
-        onPress={() => navigation.navigate('Cadastro')}>
-        Não possui conta?
-        <Text style={styles.cadastro}> Cadastre-se</Text>
-      </Text>
-
-      
+      <TouchableOpacity
+        onPress={() => {forgetPassword()}}
+        style={styles.cadastroContainer}
+      >
+        <Text style={styles.esqueceuSenha}>
+          Esqueceu sua senha? Clique aqui.
+        </Text>
+      </TouchableOpacity>
     </View>
-  )
+  );
 }
+
+export default Login;

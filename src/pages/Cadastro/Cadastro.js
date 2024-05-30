@@ -1,78 +1,84 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Alert} from 'react-native';
-import styles from "./style";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../Componentes/Firebase/Firebase';
-import { Button } from "react-native-elements";
+import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { firebase } from '../../Componentes/Firebase/Firebase';
+import styles from './style'; 
 
-export default function Cadastro({ navigation }) {
-    const [nomeCompleto, setNomeCompleto] = useState('');
+const Cadastro = () => {
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [firstName, setFirstName] = useState(''); 
+    const [lastName, setLastName] = useState('');
 
-    async function createUser() {
+    const registerUser = async (email, password, firstName, lastName) => {
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            Alert.alert('Senha de segurança forte!');
-            Alert.alert('Cadastro criado com sucesso!');
-            setNomeCompleto('');
-            setEmail('');
-            setPassword('');
-            setConfirmarSenha('');
+            await firebase.auth().createUserWithEmailAndPassword(email, password);
+            await firebase.auth().currentUser.sendEmailVerification({
+                handleCodeInApp: true,
+                url:'https://lines-22bea.firebaseapp.com',
+            });
+            await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
+                firstName,
+                lastName,
+                email,
+            });
+            alert('E-mail de verificação enviado!');
+            navigation.navigate('Login');
         } catch (error) {
-            console.error('Erro ao criar usuário:', error);
-            Alert.alert('Erro ao criar usuário:', error.message);
+            alert("Algo deu errado, tente novamente!");
         }
-    }
-
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.tituCadastro}>Cadastro</Text>
+            <Text style={styles.cadastroTexto}>Cadastro</Text>
 
-            <TextInput 
-                placeholder="E-mail"
-                placeholderTextColor='#6d6d6d'
-                value={email}
-                onChangeText={value => setEmail(value)}
-                style={styles.inputEmail}
-            />
-            
-            <TextInput 
-                placeholder="Senha"
-                placeholderTextColor='#6d6d6d'
-                value={password}
-                onChangeText={value => setPassword(value)}
-                style={styles.inputSenha}
-                maxLength={12}
-                secureTextEntry={true}
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder='Primeiro nome'
+                    onChangeText={(firstName) => setFirstName(firstName)}
+                    autoCorrect={false}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder='Último nome'
+                    onChangeText={(lastName) => setLastName(lastName)}
+                    autoCorrect={false}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder='Informe seu e-mai'
+                    onChangeText={(email) => setEmail(email)}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    keyboardType='email-address'
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder='Crie uma senha'
+                    onChangeText={(password) => setPassword(password)}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    secureTextEntry={true}
+                />
 
-            />
+                <TouchableOpacity style={styles.button} onPress={() => registerUser(email, password, firstName, lastName)}>
+                    <Text style={styles.buttonText}>Cadastrar</Text>
+                </TouchableOpacity>
 
-            <TextInput 
-                placeholder="Confirmar Senha"
-                placeholderTextColor='#6d6d6d'
-                value={confirmarSenha}
-                onChangeText={value => setConfirmarSenha(value)}
-                style={styles.inputConfirmar}
-                maxLength={12} 
-                secureTextEntry={true}
-            />
-            
-            <Button
-                buttonStyle={styles.button} 
-                title="Cadastrar"
-                onPress={() => createUser()}
-            />
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Login')}
+                >
+                    <Text style={styles.loginTexto}>
+                    Já possui uma conta? Entre aqui.
+                    </Text>
+                </TouchableOpacity>
 
-            <Text
-                style={styles.loginTexto}
-                onPress={() => navigation.navigate('Login')}>
-                Já possui conta?
-                <Text style={styles.login}> Login</Text>
-            </Text> 
-            
+            </View>
         </View>
-    )
-}
+    );
+};
+
+export default Cadastro;
