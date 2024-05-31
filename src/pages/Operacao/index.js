@@ -4,7 +4,6 @@ import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { parse } from 'node-html-parser';
 import styles from './style';
-import styles from './styles';
 
 
 
@@ -77,5 +76,4 @@ const Operacao = () => {
 
 
 
-export default Operacao;
 export default Operacao;
